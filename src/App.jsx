@@ -1,11 +1,7 @@
-import PomodoroTimer from './PomodoroTimer';
+import FocusApp from './components/FocusApp';
 
 function App() {
-  return (
-    <div>
-      <PomodoroTimer />
-    </div>
-  );
+  return <FocusApp />;
 }
 
 export default App;
