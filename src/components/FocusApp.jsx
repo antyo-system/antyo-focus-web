@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { saveFocusDuration, getTodayFocusDuration } from '../utils/focusStorage';
+import FocusChart from './FocusChart';
 
 const FocusApp = () => {
   const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 menit dalam detik
@@ -6,6 +8,7 @@ const FocusApp = () => {
   const [xp, setXp] = useState(0);
   const [level, setLevel] = useState(1);
   const [sessionsCompleted, setSessionsCompleted] = useState(0);
+  const [todayMinutes, setTodayMinutes] = useState(Math.floor(getTodayFocusDuration() / 60));
 
   useEffect(() => {
     let timer;
@@ -14,6 +17,9 @@ const FocusApp = () => {
     } else if (timeLeft === 0) {
       setIsRunning(false);
       alert("🎉 Fokus selesai! Kamu dapat 10 XP!");
+
+      saveFocusDuration(25 * 60);
+      setTodayMinutes(Math.floor(getTodayFocusDuration() / 60));
 
       // Tambah XP + Update Level
       setXp(prevXp => {
@@ -71,9 +77,13 @@ const FocusApp = () => {
       <p style={{ fontSize: '0.95rem', color: '#666' }}>
         Misi Harian: <strong>{sessionsCompleted} / 4</strong> sesi selesai
       </p>
+      <p style={{ fontSize: '1rem', marginTop: '1rem' }}>
+        Fokus Hari Ini: <strong>{todayMinutes}</strong> menit
+      </p>
+
+      <FocusChart />
     </div>
   );
 };
-
 
 export default FocusApp;
